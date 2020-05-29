@@ -1,13 +1,15 @@
 class Dock
 attr_reader :name,
             :max_rental_time,
-            :rental_log
+            :rental_log,
+            :revenue
 
     def initialize(name, max_rental_time)
       @name = name
       @max_rental_time = max_rental_time
-      @rental_log = Hash.new
-      @charge = Hash.new
+      @rental_log = {}
+      @charge = {}
+      @revenue = 0
     end
 
     def rent(boat_type, renter)
@@ -24,5 +26,16 @@ attr_reader :name,
         end
       @charge
     end
+
+    def log_hour
+      @rental_log.each do |boat, renter|
+        boat.add_hour
+      end
+    end
+
+    def return(boat)
+      @revenue += charge(boat)[:amount]
+    end
+
 
 end
